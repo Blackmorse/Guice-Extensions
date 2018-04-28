@@ -1,10 +1,7 @@
 package com.guice;
 
-import com.guice.workers.Worker1;
-import com.guice.workers.Worker2;
+import com.guice.workers.Worker;
 
-public interface WorkerFactory {
-    Worker1 createWorker1 (int argument);
-
-    Worker2 createWorker2 (int argument);
+public interface WorkerFactory<T extends Worker> {
+    T createWorker (int argument);
 }
