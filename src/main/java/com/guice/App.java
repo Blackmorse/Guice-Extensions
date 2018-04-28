@@ -10,7 +10,7 @@ public class App
         request.parameter = "case1";
         request.argument = 5;
 
-        Injector injector = Guice.createInjector();
+        Injector injector = Guice.createInjector(new Module());
         RequestHandler requestHandler = injector.getInstance(RequestHandler.class);
 
         requestHandler.handleRequest(request);
