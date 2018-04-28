@@ -1,36 +1,31 @@
 package com.guice;
 
-import com.guice.services.ServiceA;
-import com.guice.services.ServiceB;
-import com.guice.services.ServiceC;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.guice.workers.Worker;
 import com.guice.workers.Worker1;
 import com.guice.workers.Worker2;
 
+@Singleton
 public class RequestHandler {
-    private final ServiceA serviceA;
-    private final ServiceB serviceB;
-    private final ServiceC serviceC;
+    private Provider<Worker1> worker1Provider;
+    private Provider<Worker2> worker2Provider;
 
-    public RequestHandler(ServiceA serviceA,
-                             ServiceB serviceB,
-                             ServiceC serviceC) {
-        this.serviceA = serviceA;
-        this.serviceB = serviceB;
-        this.serviceC = serviceC;
+    @Inject
+    public RequestHandler(Provider<Worker1> worker1Provider,
+                          Provider<Worker2> worker2Provider) {
+        this.worker1Provider = worker1Provider;
+        this.worker2Provider = worker2Provider;
     }
 
     public void handleRequest(Request request) {
         Worker worker = null;
         if (request.parameter.equals("case1")) {
-            worker = new Worker1(request.argument);
+            worker = worker1Provider.get();
         } else if (request.parameter.equals("case2")) {
-            worker = new Worker2(request.argument);
+            worker = worker2Provider.get();
         }
-
-        worker.setServiceA(serviceA);
-        worker.setServiceB(serviceB);
-        worker.setServiceC(serviceC);
 
         worker.doWork();
     }

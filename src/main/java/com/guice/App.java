@@ -1,17 +1,17 @@
 package com.guice;
 
-import com.guice.services.ServiceA;
-import com.guice.services.ServiceB;
-import com.guice.services.ServiceC;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class App
 {
     public static void main( String[] args ) {
-        RequestHandler requestHandler = new RequestHandler(new ServiceA(), new ServiceB(), new ServiceC());
-
         Request request = new Request();
         request.parameter = "case1";
         request.argument = 5;
+
+        Injector injector = Guice.createInjector();
+        RequestHandler requestHandler = injector.getInstance(RequestHandler.class);
 
         requestHandler.handleRequest(request);
 
